@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.bahir.examples.sql.streaming.sqs
+package org.apache.spark.examples.sql.streaming.sqs
 
 import scala.util.Random
 
