@@ -1,6 +1,6 @@
 # S3-SQS Connector
 
-![Build Status](https://travis-ci.org/qubole/s3-sqs-connector.svg?branch=master)](https://travis-ci.org/qubole/s3-sqs-connector)
+[![Build Status](https://travis-ci.org/qubole/s3-sqs-connector.svg?branch=master)](https://travis-ci.org/qubole/s3-sqs-connector)
 
 A library for reading data from Amzon S3 with optimised listing using Amazon SQS using Spark SQL Streaming ( or Structured streaming.). 
 
