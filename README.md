@@ -32,12 +32,12 @@ This library is compiled for Scala 2.11 only, and intends to support Spark 2.4.0
 
 S3-SQS Connector is built using Apache Maven](http://maven.apache.org/).
 
-To build Streaminglens, clone this repository and run:
+To build S3-SQS connector, clone this repository and run:
 ```
 mvn -DskipTests clean package
 ```
 
-This will create `target/spark-streaminglens_2.11-0.5.1.jar` file which contains streaminglens code and associated dependencies. Make sure the Scala and Java versions correspond to those required by your Spark cluster. We have tested it with Java 7/8, Scala 2.11 and Spark version 2.4.0.
+This will create `target/spark-sql-streaming-sqs_2.11-0.5.1.jar` file which contains s3-sqs connector code and associated dependencies. Make sure the Scala and Java versions correspond to those required by your Spark cluster. We have tested it with Java 7/8, Scala 2.11 and Spark version 2.4.0.
 
 
 ## Configuration options
