@@ -20,7 +20,7 @@
 
   <groupId>com.qubole</groupId>
   <artifactId>spark-sql-streaming-sqs_2.11</artifactId>
-  <version>0.5.1-SNAPSHOT</version>
+  <version>0.5.1</version>
   <packaging>jar</packaging>
   <name>Spark SQL Streaming SQS</name>
   <description>Connector for faster reads from S3 using SQS</description>
