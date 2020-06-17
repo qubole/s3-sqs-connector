@@ -8,12 +8,12 @@ A library for reading data from Amzon S3 with optimised listing using Amazon SQS
 
 Using SBT:
 
-    libraryDependencies += "com.qubole.spark" %% "spark-sql-streaming-sqs_{{site.SCALA_BINARY_VERSION}}" % "{{site.PROJECT_VERSION}}"
+    libraryDependencies += "com.qubole" %% "spark-sql-streaming-sqs_{{site.SCALA_BINARY_VERSION}}" % "{{site.PROJECT_VERSION}}"
 
 Using Maven:
 
     <dependency>
-        <groupId>com.qubole.spark</groupId>
+        <groupId>com.qubole</groupId>
         <artifactId>spark-sql-streaming-sqs_{{site.SCALA_BINARY_VERSION}}</artifactId>
         <version>{{site.PROJECT_VERSION}}</version>
     </dependency>
@@ -21,7 +21,7 @@ Using Maven:
 This library can also be added to Spark jobs launched through `spark-shell` or `spark-submit` by using the `--packages` command line option.
 For example, to include it when starting the spark shell:
 
-    $ bin/spark-shell --packages com.qubole.spark:spark-sql-streaming-sqs_{{site.SCALA_BINARY_VERSION}}:{{site.PROJECT_VERSION}}
+    $ bin/spark-shell --packages com.qubole:spark-sql-streaming-sqs_{{site.SCALA_BINARY_VERSION}}:{{site.PROJECT_VERSION}}
 
 Unlike using `--jars`, using `--packages` ensures that this library and its dependencies will be added to the classpath.
 The `--packages` argument can also be used with `bin/spark-submit`.
