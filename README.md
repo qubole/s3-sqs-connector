@@ -72,5 +72,6 @@ An example to create a SQL stream which uses Amazon SQS to list files on S3,
                           .option("region", awsRegion)
                           .option("fileFormat", "json")
                           .option("sqsFetchIntervalSeconds", "2")
+                          .option("useInstanceProfileCredentials", "true")
                           .option("sqsLongPollingWaitTimeSeconds", "5")
                           .load()

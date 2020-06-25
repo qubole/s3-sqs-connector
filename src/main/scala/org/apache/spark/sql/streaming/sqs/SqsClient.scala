@@ -224,7 +224,7 @@ class SqsClient(sourceOptions: SqsSourceOptions,
       }
     } catch {
       case e: Exception =>
-        throw new SparkException(s"Error occured while creating Amazon SQS Client ${e.getMessage}")
+        throw new SparkException(s"Error occured while creating Amazon SQS Client", e)
     }
   }
 
