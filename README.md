@@ -74,8 +74,8 @@ val partitionedSchema = new StructType().add(StructField(
           "col1", IntegerType, true, metaData))
 ```
 
-Also, `basePath` needs to be specified in case of partitioned S3 bucket. Specifying partitioned
-columns without specifying the `basePath` will throw an error.
+Also, `basePath` needs to be specified in the options in case of partitioned S3 bucket. 
+Specifying partitioned columns without specifying the `basePath` will throw an error.
 
 ## Example
 

@@ -19,7 +19,7 @@ package org.apache.spark.sql.streaming.sqs
 
 import java.util.Locale
 
-import org.apache.spark.sql.streaming.{StreamingQuery, StreamTest}
+import org.apache.spark.sql.streaming.{StreamingQuery, StreamingQueryException, StreamTest}
 import org.apache.spark.sql.types._
 
 class SqsSourceSuite extends StreamTest  {
@@ -33,9 +33,9 @@ class SqsSourceSuite extends StreamTest  {
     val expectedMsg = s"$BASE_PATH is mandatory if schema contains partitionColumns"
 
     try {
-      val errorMessage = intercept[IllegalArgumentException] {
+      val errorMessage = intercept[StreamingQueryException] {
 
-        val metaData = (new MetadataBuilder).putString(IS_PARTITIONED, "true").build()
+        val metaData = (new MetadataBuilder).putBoolean(IS_PARTITIONED, true).build()
 
         val partitionedSchema = new StructType().add(StructField(
           "col1", IntegerType, true, metaData))
@@ -50,8 +50,8 @@ class SqsSourceSuite extends StreamTest  {
           .load()
 
         query = reader.writeStream
+          .queryName("testQuery")
           .format("memory")
-          .queryName("missingSchema")
           .start()
 
         query.processAllAvailable()
@@ -75,7 +75,7 @@ class SqsSourceSuite extends StreamTest  {
     val expectedMsg = s"$IS_PARTITIONED for column $columName must be true or false"
 
     try {
-      val errorMessage = intercept[IllegalArgumentException] {
+      val errorMessage = intercept[StreamingQueryException] {
 
         val metaData = (new MetadataBuilder).putString(IS_PARTITIONED, "x").build()
 
@@ -93,7 +93,7 @@ class SqsSourceSuite extends StreamTest  {
 
         query = reader.writeStream
           .format("memory")
-          .queryName("missingSchema")
+          .queryName("testQuery")
           .start()
 
         query.processAllAvailable()

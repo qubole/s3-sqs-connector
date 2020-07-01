@@ -54,12 +54,10 @@ class SqsSource(sparkSession: SparkSession,
 
   private val shouldSortFiles = sourceOptions.shouldSortFiles
 
-  private val sqsClient = new SqsClient(sourceOptions, hadoopConf)
-
   private val partitionColumnNames = {
     schema.fields.filter(field => field.metadata.contains(IS_PARTITIONED) &&
       Try(field.metadata.getBoolean(IS_PARTITIONED)).toOption.getOrElse(throw new
-          IllegalArgumentException(s"$IS_PARTITIONED for columns ${field.name} must be true or " +
+          IllegalArgumentException(s"$IS_PARTITIONED for column ${field.name} must be true or " +
             s"false"))
     ).map(_.name)
   }
@@ -71,6 +69,8 @@ class SqsSource(sparkSession: SparkSession,
   } else {
     options
   }
+
+  private val sqsClient = new SqsClient(sourceOptions, hadoopConf)
 
   metadataLog.allFiles().foreach { entry =>
     sqsClient.sqsFileCache.add(entry.path, MessageDescription(entry.timestamp, true, ""))
