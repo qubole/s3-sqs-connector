@@ -37,6 +37,8 @@ class SqsSourceOptions(parameters: CaseInsensitiveMap[String]) extends Logging {
     }
   }
 
+  val basePath: Option[String] = parameters.get("basePath")
+
   /**
    * Maximum age of a file that can be found in this directory, before it is ignored. For the
    * first batch all files will be considered valid.

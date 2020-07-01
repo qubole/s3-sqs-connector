@@ -19,6 +19,8 @@ package org.apache.spark.sql.streaming.sqs
 
 import java.net.URI
 
+import scala.util.Try
+
 import org.apache.hadoop.fs.Path
 
 import org.apache.spark.internal.Logging
@@ -33,6 +35,8 @@ class SqsSource(sparkSession: SparkSession,
                 metadataPath: String,
                 options: Map[String, String],
                 override val schema: StructType) extends Source with Logging {
+
+  import SqsSource._
 
   private val sourceOptions = new SqsSourceOptions(options)
 
@@ -51,6 +55,22 @@ class SqsSource(sparkSession: SparkSession,
   private val shouldSortFiles = sourceOptions.shouldSortFiles
 
   private val sqsClient = new SqsClient(sourceOptions, hadoopConf)
+
+  private val partitionColumnNames = {
+    schema.fields.filter(field => field.metadata.contains(IS_PARTITIONED) &&
+      Try(field.metadata.getBoolean(IS_PARTITIONED)).toOption.getOrElse(throw new
+          IllegalArgumentException(s"$IS_PARTITIONED for columns ${field.name} must be true or " +
+            s"false"))
+    ).map(_.name)
+  }
+
+  private val optionsWithBasePath = if (!partitionColumnNames.isEmpty) {
+    val basePartitionsPath = sourceOptions.basePath.getOrElse(throw new IllegalArgumentException(
+      s"$BASE_PATH is mandatory if schema contains partitionColumns"))
+    options + (BASE_PATH -> basePartitionsPath)
+  } else {
+    options
+  }
 
   metadataLog.allFiles().foreach { entry =>
     sqsClient.sqsFileCache.add(entry.path, MessageDescription(entry.timestamp, true, ""))
@@ -75,8 +95,9 @@ class SqsSource(sparkSession: SparkSession,
         sparkSession,
         paths = files.map(f => new Path(new URI(f.path)).toString),
         userSpecifiedSchema = Some(schema),
+        partitionColumns = partitionColumnNames,
         className = fileFormatClassName,
-        options = options)
+        options = optionsWithBasePath)
     Dataset.ofRows(sparkSession, LogicalRelation(newDataSource.resolveRelation(
       checkFilesExist = false), isStreaming = true))
   }
@@ -136,5 +157,11 @@ class SqsSource(sparkSession: SparkSession,
 
   override def toString: String = s"SqsSource[${sqsClient.sqsUrl}]"
 
+}
+
+object SqsSource {
+
+  val IS_PARTITIONED = "isPartitioned"
+  val BASE_PATH = "basePath"
 }
 

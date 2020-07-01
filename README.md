@@ -59,6 +59,23 @@ shouldSortFiles|true|whether to sort files based on timestamp while listing them
 useInstanceProfileCredentials|false|Whether to use EC2 instance profile credentials for connecting to Amazon SQS
 maxFilesPerTrigger|no default value|maximum number of files to process in a microbatch
 maxFileAge|7d|Maximum age of a file that can be found in this directory
+basePath|no default value|Base path in case of partitioned S3 data. Eg. `s3://bucket/basedDir/part1=10/part2=20/file.json` will have basePath as `s3://bucket/basedDir/`
+
+## Using Parrtitioned S3 Bucket
+
+In case your S3 bucket is partitioned, your schema must contain both data columns as well as partition 
+columns. Moreover, partition columns need to have `isPartitioned` set to `true` in their metadata.
+
+Example:
+```
+val metaData = (new MetadataBuilder).putString("isPartitioned", "true").build()
+
+val partitionedSchema = new StructType().add(StructField(
+          "col1", IntegerType, true, metaData))
+```
+
+Also, `basePath` needs to be specified in case of partitioned S3 bucket. Specifying partitioned
+columns without specifying the `basePath` will throw an error.
 
 ## Example
 
