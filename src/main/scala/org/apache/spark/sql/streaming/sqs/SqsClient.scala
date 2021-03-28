@@ -82,7 +82,7 @@ class SqsClient(sourceOptions: SqsSourceOptions,
     sqsFetchMessagesThread,
     0,
     sqsFetchIntervalSeconds,
-    TimeUnit.SECONDS)
+    TimeUnit.MILLISECONDS)
 
   private def sqsFetchMessages(): Seq[(String, Long, String)] = {
     val messageList = try {
