@@ -49,7 +49,7 @@ sqsUrl|required, no default value|sqs queue url, like 'https://sqs.us-east-1.ama
 region|required, no default value|AWS region where queue is created
 fileFormat|required, no default value|file format for the s3 files stored on Amazon S3
 schema|required, no default value|schema of the data being read 
-sqsFetchIntervalSeconds|10|time interval (in seconds) after which to fetch messages from Amazon SQS queue
+sqsFetchIntervalMilliSeconds|10000|time interval (in milli seconds) after which to fetch messages from Amazon SQS queue
 sqsLongPollingWaitTimeSeconds|20|wait time (in seconds) for long polling on Amazon SQS queue 
 sqsMaxConnections|1|number of parallel threads to connect to Amazon SQS queue
 sqsMaxRetries|10|Maximum number of consecutive retries in case of a connection failure to SQS before giving up
@@ -71,7 +71,7 @@ An example to create a SQL stream which uses Amazon SQS to list files on S3,
                           .option("sqsUrl", queueUrl)
                           .option("region", awsRegion)
                           .option("fileFormat", "json")
-                          .option("sqsFetchIntervalSeconds", "2")
+                          .option("sqsFetchIntervalMilliSeconds", "2000")
                           .option("useInstanceProfileCredentials", "true")
                           .option("sqsLongPollingWaitTimeSeconds", "5")
                           .load()
