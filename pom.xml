@@ -19,8 +19,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.qubole</groupId>
-  <artifactId>spark-sql-streaming-sqs_2.11</artifactId>
-  <version>0.5.2-SNAPSHOT</version>
+  <artifactId>spark-sql-streaming-sqs_2.12</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Spark SQL Streaming SQS</name>
   <description>Connector for faster reads from S3 using SQS</description>
@@ -49,7 +49,7 @@
     <connection>scm:git:git://github.com/qubole/s3-sqs-connector.git</connection>
     <url>https://github.com/qubole/s3-sqs-connector</url>
     <developerConnection>scm:git:git@github.com:qubole/s3-sqs-connector.git</developerConnection>
-    <tag>spark-sql-streaming-sqs_2.11-0.5.1</tag>
+    <tag>spark-sql-streaming-sqs_2.12-1.0.0</tag>
   </scm>
 
   <inceptionYear>2020</inceptionYear>
@@ -60,9 +60,11 @@
 
   <properties>
     <sbt.project.name>spark-sql-streaming-sqs</sbt.project.name>
-    <spark.version>2.4.0</spark.version>
-    <scala.binary.version>2.11</scala.binary.version>
+    <spark.version>3.1.1</spark.version>
+    <scala.binary.version>2.12</scala.binary.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 
   <dependencies>

@@ -38,7 +38,7 @@ import org.apache.spark.util.ThreadUtils
 class SqsClient(sourceOptions: SqsSourceOptions,
                 hadoopConf: Configuration) extends Logging {
 
-  private val sqsFetchIntervalSeconds = sourceOptions.fetchIntervalSeconds
+  private val sqsFetchIntervalMilliSeconds = sourceOptions.fetchIntervalMilliSeconds
   private val sqsLongPollWaitTimeSeconds = sourceOptions.longPollWaitTimeSeconds
   private val sqsMaxRetries = sourceOptions.maxRetries
   private val maxConnections = sourceOptions.maxConnections
@@ -81,8 +81,8 @@ class SqsClient(sourceOptions: SqsSourceOptions,
   sqsScheduler.scheduleWithFixedDelay(
     sqsFetchMessagesThread,
     0,
-    sqsFetchIntervalSeconds,
-    TimeUnit.SECONDS)
+    sqsFetchIntervalMilliSeconds,
+    TimeUnit.MILLISECONDS)
 
   private def sqsFetchMessages(): Seq[(String, Long, String)] = {
     val messageList = try {
@@ -192,7 +192,7 @@ class SqsClient(sourceOptions: SqsSourceOptions,
         s"${sqsMaxRetries} times Giving up. Check logs for details."))
     } else {
       logWarning(s"Attempt ${retriesOnFailure}." +
-        s"Will reattempt after ${sqsFetchIntervalSeconds} seconds")
+        s"Will reattempt after ${sqsFetchIntervalMilliSeconds} seconds")
     }
   }
 
