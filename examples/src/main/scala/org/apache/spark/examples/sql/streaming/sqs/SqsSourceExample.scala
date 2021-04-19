@@ -51,7 +51,7 @@ object SqsSourceExample {
       .schema(schema)
       .option("sqsUrl", queueUrl)
       .option("fileFormat", fileFormat)
-      .option("sqsFetchIntervalSeconds", "2")
+      .option("sqsFetchIntervalMilliSeconds", "2000")
       .option("sqsLongPollingWaitTimeSeconds", "5")
       .option("maxFilesPerTrigger", "50")
       .option("ignoreFileDeletion", "true")

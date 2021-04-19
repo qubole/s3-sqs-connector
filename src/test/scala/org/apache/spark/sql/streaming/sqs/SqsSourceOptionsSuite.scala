@@ -58,8 +58,8 @@ class SqsSourceOptionsSuite extends StreamTest {
       }
     }
 
-    testBadOptions("sqsFetchIntervalSeconds" -> "-2")("Invalid value '-2' " +
-      "for option 'sqsFetchIntervalSeconds', must be a positive integer")
+    testBadOptions("sqsFetchIntervalMilliSeconds" -> "-2")("Invalid value '-2' " +
+      "for option 'sqsFetchIntervalMilliSeconds', must be a positive integer")
     testBadOptions("sqsLongPollingWaitTimeSeconds" -> "-5")("Invalid value '-5' " +
       "for option 'sqsLongPollingWaitTimeSeconds',must be an integer between 0 and 20")
     testBadOptions("sqsMaxConnections" -> "-2")("Invalid value '-2' " +
