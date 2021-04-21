@@ -138,15 +138,19 @@ class SqsClient(sourceOptions: SqsSourceOptions,
       try {
         val messageReceiptHandle = message.getReceiptHandle
         val messageJson = parse(message.getBody).extract[JValue]
+        val messageM = (messageJson \ "Message").extract[String]
+        val sqsMessageJson = parse(messageM).extract[JValue]
         val bucketName = (
-          messageJson \ "Records" \ "s3" \ "bucket" \ "name").extract[Array[String]].head
-        val eventName = (messageJson \ "Records" \ "eventName").extract[Array[String]].head
+          sqsMessageJson \ "Records" \ "s3" \ "bucket" \ "name")
+          .extract[Array[String]].head
+        val eventName = (sqsMessageJson \ "Records" \ "eventName").extract[Array[String]].head
         if (eventName.contains("ObjectCreated")) {
-          val timestamp = (messageJson \ "Records" \ "eventTime").extract[Array[String]].head
+          val timestamp = (sqsMessageJson \ "Records" \ "eventTime").extract[Array[String]].head
           val timestampMills = convertTimestampToMills(timestamp)
           val path = "s3://" +
             bucketName + "/" +
-            (messageJson \ "Records" \ "s3" \ "object" \ "key").extract[Array[String]].head
+            (sqsMessageJson \ "Records" \ "s3" \ "object" \ "key")
+              .extract[Array[String]].head
           logDebug("Successfully parsed sqs message")
           list :+ ((path, timestampMills, messageReceiptHandle))
         } else {
@@ -165,11 +169,11 @@ class SqsClient(sourceOptions: SqsSourceOptions,
       } catch {
         case me: MappingException =>
           errorMessages.append(message.getReceiptHandle)
-          logWarning(s"Error in parsing SQS message ${me.getMessage}")
+          logWarning(s"Error in parsing SNS-SQS message ${me.getMessage}")
           list
         case e: Exception =>
           errorMessages.append(message.getReceiptHandle)
-          logWarning(s"Unexpected error while parsing SQS message ${e.getMessage}")
+          logWarning(s"Unexpected error while parsing SNS-SQS message ${e.getMessage}")
           list
       }
     }
